@@ -1,11 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { GithubIcon } from "lucide-react";
-import GoogleIcon from "../../../public/images/google-icon.svg"
-import Image from "next/image";
+import GoogleSignInButton from "@/app/components/GoogleSignInButton";
+import GithubSignInButton from "@/app/components/GithubSignInButton";
+import { authOptions } from "@/app/utils/auth";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function Login() {
+export default async function Login() {
+
+    const session = await getServerSession(authOptions)
+    session?redirect('/home'):redirect('/login')
+
     return (
         <div className="mt-24 rounded bg-black/70 py-10 px-6 md:mt-0 md:max-w-sm md:px-14">
             <form>
@@ -29,12 +35,8 @@ export default function Login() {
             </div>
 
             <div className="flex w-full justify-center items-center gap-x-3 mt-6">
-                <Button variant="outline" size="icon">
-                    <GithubIcon className="w-4 h-4"/>
-                </Button>
-                <Button variant="outline" size="icon">
-                    <Image src={GoogleIcon} alt="Google Icon" className="w-4 h-4" />
-                </Button>
+                <GithubSignInButton />
+                <GoogleSignInButton />
             </div>
 
         </div>

@@ -1,12 +1,11 @@
-import { Button } from '@/components/ui/button'
-import Image from 'next/image'
+import { getServerSession } from 'next-auth'
+import { authOptions } from './utils/auth'
+import { redirect } from 'next/navigation'
 
-export default function Home() {
-  return (
-    <div className='m-5'>
-      <h1>Nextflix</h1>
-      <Button>Click me</Button>
+export default async function Home() {
 
-    </div>
-  )
+  const session = await getServerSession(authOptions)
+
+  session?redirect('/home'):redirect('/login')
+
 }
